@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MEMBER=$1
+INTERFACE="org.edu.os.control"
+
+dbus-send / $INTERFACE.$MEMBER

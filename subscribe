@@ -1,0 +1,23 @@
+#!/bin/bash
+
+MEMBER=$1
+
+INTERFACE="org.edu.os.control"
+
+dbus-monitor --profile interface=$INTERFACE member=$MEMBER | while read a; do
+  OLDIFS=$IFS
+  IFS=$' \t\n'
+  read -r type timestamp serial sender destination path interface member <<< "$a"
+  IFS=$OLDIFS
+
+  if [ -z "$serial" -o "${type:0:1}" = "#" ]; then
+    continue
+  fi
+
+  if [ "$member" != "$MEMBER" ]; then
+    continue
+  fi
+
+  echo tick
+done
+
